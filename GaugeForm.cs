@@ -65,7 +65,7 @@ namespace GaugeReader
 
             ProfileComboBox.SelectedIndex = 0;
 
-            ProcessImage("TrainingSet/Thermometer/thermometer_10_ex_57.jpg", ProfileComboBox.SelectedItem as GaugeProfile);
+            ProcessImage("TrainingSet/Thermometer/thermometer_1_ex_57.jpg", ProfileComboBox.SelectedItem as GaugeProfile);
         }
 
         public void ProcessImage(string path, GaugeProfile profile)
