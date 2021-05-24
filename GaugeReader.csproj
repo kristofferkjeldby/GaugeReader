@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CFEB5225-CD8C-4503-937A-6420407EC6BF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>GaugeReader</RootNamespace>
+    <AssemblyName>GaugeReader</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
+      <HintPath>packages\AForge.2.2.5\lib\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging, Version=2.2.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL">
+      <HintPath>packages\AForge.Imaging.2.2.5\lib\AForge.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Math, Version=2.2.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
+      <HintPath>packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="Extensions\ArrayExtensions.cs" />
+    <Compile Include="Extensions\FloatExtensions.cs" />
+    <Compile Include="Extensions\DrawExtensions.cs" />
+    <Compile Include="Extensions\PointExtensions.cs" />
+    <Compile Include="Extensions\MaskExtensions.cs" />
+    <Compile Include="Extensions\DoubleExtensions.cs" />
+    <Compile Include="Extensions\BitmapExtensions.cs" />
+    <Compile Include="Extensions\HoughCicleExtensions.cs" />
+    <Compile Include="Extensions\HoughLineExtensions.cs" />
+    <Compile Include="Filters\Filter.cs" />
+    <Compile Include="GaugeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GaugeForm.Designer.cs">
+      <DependentUpon>GaugeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Angles\Angle.cs" />
+    <Compile Include="Models\Angles\AngleMapConvolution.cs" />
+    <Compile Include="Models\Angles\Convolution.cs" />
+    <Compile Include="Models\Angles\Frequency.cs" />
+    <Compile Include="Models\Angles\AngleMapFrequency.cs" />
+    <Compile Include="Models\Angles\AngleSpan.cs" />
+    <Compile Include="Models\Angles\AngleMap.cs" />
+    <Compile Include="Models\Angles\AngleMapAngle.cs" />
+    <Compile Include="Models\Circle.cs" />
+    <Compile Include="Models\Coordinates\ICoordinate.cs" />
+    <Compile Include="Models\Coordinates\SphericalCoordinate.cs" />
+    <Compile Include="Models\Coordinates\CartesianCoordinate.cs" />
+    <Compile Include="Models\Gauges\GaugeProfile.cs" />
+    <Compile Include="Models\Lines\RadialLine.cs" />
+    <Compile Include="Models\Lines\Line.cs" />
+    <Compile Include="Models\Processors\ProcessorMessage.cs" />
+    <Compile Include="Models\Processors\DebugImage.cs" />
+    <Compile Include="Models\Processors\ProcessorArgs.cs" />
+    <Compile Include="Models\Processors\ProcessorResult.cs" />
+    <Compile Include="Models\Angles\RadiusZone.cs" />
+    <Compile Include="Processors\CenterImageProcessor.cs" />
+    <Compile Include="Processors\InvertProcessor.cs" />
+    <Compile Include="Processors\MarkerConvolutionProcessor.cs" />
+    <Compile Include="Processors\ResultProcessor.cs" />
+    <Compile Include="Processors\TestProcessors\MaskAngleSpanTestProcessor.cs" />
+    <Compile Include="Processors\TestProcessors\MaskDialZoneTestProcessor.cs" />
+    <Compile Include="Processors\TestProcessors\MaskLineTestProcessor.cs" />
+    <Compile Include="Processors\TestProcessors\LineTestProcessor.cs" />
+    <Compile Include="Processors\MarkerSymmetryProcessor.cs" />
+    <Compile Include="Processors\TestProcessors\CoordinateTestProcessor.cs" />
+    <Compile Include="Processors\ScaleProcessor.cs" />
+    <Compile Include="Processors\DialProcessor.cs" />
+    <Compile Include="Processors\HandAngleProcessor.cs" />
+    <Compile Include="Processors\HandLineProcessor.cs" />
+    <Compile Include="Processors\EdgeProcessor.cs" />
+    <Compile Include="Processors\Processor.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GaugeForm.resx">
+      <DependentUpon>GaugeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Convolutions\middle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Convolutions\simple.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Convolutions\thermometer.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\dummy.jpg" />
+    <Content Include="TrainingSet\Simple\simple_1_ex_0.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Simple\simple_7_ex_0.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Simple\simple_2_ex_100.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Simple\simple_3_ex_0.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Simple\simple_6._ex_0.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Simple\simple_5_ex_0.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Simple\simple_4_ex_0.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Thermometer\thermometer_10_ex_57.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Thermometer\thermometer_1_ex_57.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Thermometer\thermometer_3_ex_57.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Thermometer\thermometer_2_ex_57.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Thermometer\thermometer_4_ex_57.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Thermometer\thermometer_5_ex_57.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Thermometer\thermometer_6_ex_57.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Thermometer\thermometer_7_ex_57.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Thermometer\thermometer_8_ex_57.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TrainingSet\Thermometer\thermometer_9_ex_57.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
