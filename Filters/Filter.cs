@@ -36,7 +36,7 @@
                     var r = c.R - c.G - c.B;
                     if (r < 0)
                         r = 0;
-                    Color nc = Color.FromArgb(byte.MaxValue, r, r, r);
+                    Color nc = Color.FromArgb(c.A, r, r, r);
                     filtered.SetPixel(i, x, nc);
                 }
             }
@@ -56,7 +56,7 @@
                 for (int x = 0; x < image.Height; x++)
                 {
                     Color c = image.GetPixel(i, x);
-                    if (c == Color.Black)
+                    if (c == Constants.MaskColor)
                         continue;
                     float brightness = c.GetBrightness();
                     if (brightness < minBrightness)
@@ -93,7 +93,7 @@
                 {
                     Color c = image.GetPixel(i, x);
                     Color nc = c;
-                    if (c.GetBrightness() > 0.2)
+                    if (c.GetBrightness() > 0.3)
                         nc = Color.White;
                     
                     

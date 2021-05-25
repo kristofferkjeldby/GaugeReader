@@ -14,7 +14,7 @@
         public static PixelFormat DrawFormat = PixelFormat.Format24bppRgb;
         public static PixelFormat ProcessFormat = PixelFormat.Format8bppIndexed;
         public static int DrawMargin = 10;
-        public static Color MaskColor = Color.Black;
+        public static Color MaskColor = Color.FromArgb(0, 0, 0, 0);
 
         // Deltas
         public const int DeltaDecimals = 2;

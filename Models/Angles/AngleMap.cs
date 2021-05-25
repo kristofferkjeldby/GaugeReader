@@ -17,20 +17,29 @@
 
         public AngleMap(Bitmap image)
         {
-            Map = new double[Constants.AngleResolution];
+            var map = new double[Constants.AngleResolution, 2];
 
             for (int x = 0; x < image.Width; x++)
             {
                 for (int y = 0; y < image.Height; y++)
                 {
-                    var intensity = image.GetPixel(x, y).GetBrightness();
-                    if (intensity == 0)
-                        continue;
+                    var color = image.GetPixel(x, y);
+                    var alpha = (double)color.A / byte.MaxValue;
+                    var brightness = color.GetBrightness();
                     var angle = new Point(x, y).ToSphericalCoordinate(image).Theta;
                     var step = (angle / stepSize).ToInt() % Constants.AngleResolution;
-                    Map[step] += intensity;
+                    map[step, 0] = map[step, 0] + alpha;
+                    map[step, 1] = map[step, 1] + alpha * brightness;
                 }
             }
+
+            Map = new double[Constants.AngleResolution];
+
+            for(int i = 0; i < Constants.AngleResolution; i++)
+            {
+                Map[i] = map[i, 1] / map[i, 0];
+            }
+
 
             Map = Map.Normalize(1);
         }

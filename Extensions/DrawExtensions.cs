@@ -6,6 +6,7 @@
     using GaugeReader.Models.Gauges;
     using GaugeReader.Models.Lines;
     using System.Drawing;
+    using System.Drawing.Drawing2D;
     using System.Linq;
 
     public static class DrawExtensions
@@ -22,6 +23,7 @@
 
             using (var g = Graphics.FromImage(image))
             {
+                g.CompositingMode = CompositingMode.SourceCopy;
                 g.DrawEllipse(new Pen(color, 2 * radius), new Rectangle(new Point(c.X - radius, c.Y - radius), new Size(2 * radius, 2 * radius)));
             }
 
@@ -53,6 +55,7 @@
 
             using (var g = Graphics.FromImage(image))
             {
+                g.CompositingMode = CompositingMode.SourceCopy;
                 g.DrawLine(new Pen(color, 5), intersections[0].ToPoint(image), intersections[1].ToPoint(image));
             }
 
@@ -70,6 +73,7 @@
 
             using (var g = Graphics.FromImage(image))
             {
+                g.CompositingMode = CompositingMode.SourceCopy;
                 g.DrawLine(new Pen(color, 5), new CartesianCoordinate(0, 0).ToPoint(image), intersections[1].ToPoint(image));
             }
 
@@ -95,6 +99,7 @@
         {
             using (Graphics g = Graphics.FromImage(image))
             {
+                g.CompositingMode = CompositingMode.SourceCopy;
                 g.FillEllipse(new SolidBrush(color), rectangle);
             }
             return image;

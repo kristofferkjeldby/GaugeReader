@@ -16,6 +16,7 @@
             Bitmap originalImage = image.Copy();
             using (Graphics g = Graphics.FromImage(image))
             {
+                g.CompositingMode = CompositingMode.SourceCopy;
                 g.FillRectangle(new SolidBrush(color), 0, 0, image.Width, image.Height);
                 GraphicsPath path = new GraphicsPath();
                 path.AddEllipse(rectangle);
@@ -41,6 +42,7 @@
 
             using (Graphics g = Graphics.FromImage(image))
             {
+                g.CompositingMode = CompositingMode.SourceCopy;
                 g.FillPolygon(new SolidBrush(color), maskCoordinates.Select(c => c.ToPoint(image)).ToArray());
             }
 
@@ -57,6 +59,7 @@
 
             using (Graphics g = Graphics.FromImage(image))
             {
+                g.CompositingMode = CompositingMode.SourceCopy;
                 g.DrawEllipse(new Pen(color, (float)(zoneRadius * radius) * 2), rectangle);
             }
 
@@ -79,6 +82,7 @@
 
             using (Graphics g = Graphics.FromImage(image))
             {
+                g.CompositingMode = CompositingMode.SourceCopy;
                 g.FillPolygon(new SolidBrush(color), maskCoordinates.Select(c => c.ToPoint(image)).ToArray());
             }
 
