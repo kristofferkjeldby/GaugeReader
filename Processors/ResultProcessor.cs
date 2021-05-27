@@ -1,8 +1,9 @@
 ﻿namespace GaugeReader.Processors
 {
     using GaugeReader.Extensions;
-    using GaugeReader.Models.Angles;
-    using GaugeReader.Models.Processors;
+    using GaugeReader.Images.Models;
+    using GaugeReader.Math.Models.Angles;
+    using GaugeReader.Processors.Models;
     using System;
     using System.Drawing;
 
@@ -12,7 +13,13 @@
 
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {
-            var processImage = args.ScaledImage.Resize(200, 200);
+            var processImage = args.ImageSet.GetUnfilteredImage().Resize(200);
+
+            if (args.MarkerAngleSpan == null || args.HandAngle == null)
+            {
+                args.Abort();
+                return;
+            }
 
             processImage.DrawRadialLine(args.MarkerAngleSpan.StartAngle, Color.Blue);
             processImage.DrawRadialLine(args.MarkerAngleSpan.EndAngle, Color.Red);
@@ -44,7 +51,7 @@
 
             processImage.DrawText(actualValueText, color);
 
-            args.ResultImage = processImage;
+            args.ResultImage = new ImageSet(processImage);
         }
     }
 }

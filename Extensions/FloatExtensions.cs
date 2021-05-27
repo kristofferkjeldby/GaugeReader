@@ -4,16 +4,6 @@
 
     public static class FloatExtensions
     {
-        public static bool FuzzyEquals(this float value, float otherValue)
-        {
-            return Math.Abs(value - otherValue) < Constants.Delta;
-        }
-
-        public static bool IsValid(this float value)
-        {
-            return !float.IsInfinity(value) && !float.IsNaN(value);
-        }
-
         public static float Limit(this float a, float min, float max)
         {
             if (float.IsPositiveInfinity(a)) return max;

@@ -1,10 +1,9 @@
 ﻿namespace GaugeReader.Extensions
 {
-    using GaugeReader.Models;
-    using GaugeReader.Models.Angles;
-    using GaugeReader.Models.Coordinates;
-    using GaugeReader.Models.Gauges;
-    using GaugeReader.Models.Lines;
+    using GaugeReader.Math.Models.Angles;
+    using GaugeReader.Math.Models.Circles;
+    using GaugeReader.Math.Models.Coordinates;
+    using GaugeReader.Math.Models.Lines;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Linq;
@@ -35,13 +34,10 @@
             var radius = (double)image.Width / 2;
             var center = new CartesianCoordinate(0, 0);
 
-            var startRectangle = new Circle(center, radius * radiusZone.Start).ToRectangle(image);
-            var endRectangle = new Circle(center, radius * radiusZone.End).ToRectangle(image);
+            var startCircle = new Circle(center, radius * radiusZone.Start);
+            var endCircle = new Circle(center, radius * radiusZone.End);
 
-            image.DrawCircle(startRectangle, color);
-            image.MaskCircle(endRectangle, color);
-
-            return image;
+            return image.DrawCircle(startCircle, color).MaskCircle(endCircle, color);
         }
 
         public static Bitmap DrawLine(this Bitmap image, Line line, Color color)
@@ -95,6 +91,11 @@
         }
 
 
+        public static Bitmap DrawCircle(this Bitmap image, Circle circle, Color color)
+        {
+            return image.DrawCircle(circle.ToRectangle(image), color);
+        }
+
         public static Bitmap DrawCircle(this Bitmap image, Rectangle rectangle, Color color)
         {
             using (Graphics g = Graphics.FromImage(image))
@@ -102,6 +103,7 @@
                 g.CompositingMode = CompositingMode.SourceCopy;
                 g.FillEllipse(new SolidBrush(color), rectangle);
             }
+
             return image;
         }
 

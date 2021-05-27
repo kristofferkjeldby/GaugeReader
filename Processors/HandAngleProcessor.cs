@@ -2,9 +2,9 @@
 {
     using AForge.Imaging;
     using GaugeReader.Extensions;
-    using GaugeReader.Models.Angles;
-    using GaugeReader.Models.Lines;
-    using GaugeReader.Models.Processors;
+    using GaugeReader.Math.Models.Angles;
+    using GaugeReader.Math.Models.Lines;
+    using GaugeReader.Processors.Models;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -16,7 +16,7 @@
 
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {
-            var processImage = args.Profile.HandImage(args);
+            var processImage = args.ImageSet.GetFilteredImage(args.Profile.HandFilter);
 
             var maskAngles = new List<Angle>()
                 {
@@ -24,7 +24,7 @@
                     args.HandLine.Angle.Opposite,
                 };
 
-            var maskedLines = new Dictionary<Bitmap, Tuple<Angle, HoughLine>>();
+            var maskedLines = new Dictionary<Bitmap, Tuple<Angle, Line>>();
 
             foreach (var maskAngle in maskAngles)
             {
@@ -35,11 +35,12 @@
                 maskedTransform.ProcessImage(maskedImage.ToProcessImage());
 
                 var maskedLine = maskedTransform.GetMostIntensiveLines(10).
-                Where(l => args.Profile.CenterZone.Contains(l, args.DialRadius)).
-                OrderByDescending(l => l.Intensity).FirstOrDefault();
+                    Select(l => new Line(l)).
+                    Where(l => args.Profile.CenterZone.Contains(l, args.DialRadius)).
+                    OrderByDescending(l => l.Intensity).FirstOrDefault();
 
                 if (maskedLine != null)
-                    maskedLines.Add(maskedImage, new Tuple<Angle, HoughLine> (maskAngle, maskedLine));
+                    maskedLines.Add(maskedImage, new Tuple<Angle, Line> (maskAngle, maskedLine));
             }
 
             if (!maskedLines.Any())

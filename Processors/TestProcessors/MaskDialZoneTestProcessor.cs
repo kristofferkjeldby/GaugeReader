@@ -1,8 +1,9 @@
 ﻿namespace GaugeReader.Processors.TestProcessors
 {
     using GaugeReader.Extensions;
-    using GaugeReader.Models.Angles;
-    using GaugeReader.Models.Processors;
+    using GaugeReader.Filters;
+    using GaugeReader.Math.Models.Angles;
+    using GaugeReader.Processors.Models;
     using System.Drawing;
 
     public class MaskDialZoneTestProcessor : Processor
@@ -11,10 +12,10 @@
 
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {
-            var processImage = args.EdgeImage;;
+            var output = args.ImageSet.GetUnfilteredImage();
             var dialZone = new RadiusZone(50d / 100d, 80d / 100d);
-            processImage.MaskRadiusZone(dialZone, Color.Red);
-            AddDebugImage(processImage);
+            output.MaskRadiusZone(dialZone, Color.Red);
+            AddDebugImage(output);
         }
     }
 }

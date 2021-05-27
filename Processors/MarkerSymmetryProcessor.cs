@@ -1,16 +1,16 @@
 ﻿namespace GaugeReader.Processors
 {
+    using GaugeReader.Convolutions.Models;
     using GaugeReader.Extensions;
-    using GaugeReader.Models.Angles;
-    using GaugeReader.Models.Gauges;
-    using GaugeReader.Models.Processors;
+    using GaugeReader.Math.Models.Angles;
+    using GaugeReader.Processors.Models;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
 
     public class MarkerSymmetryProcessor : Processor
     {
-        public MarkerSymmetryProcessor(params GaugeProfile[] profiles) : base(profiles)
+        public MarkerSymmetryProcessor(params string[] profileNames) : base(profileNames)
         {
 
         }
@@ -19,19 +19,25 @@
 
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {
-            var processImage = args.Profile.MarkerImage(args).DrawRadiusZone(args.Profile.MarkerZone, Constants.MaskColor);
-            var debugImage = args.ScaledImage.Copy();
+            var processImage = args.ImageSet.GetFilteredImage(args.Profile.MarkerFilter).DrawRadiusZone(args.Profile.MarkerZone, Constants.MaskColor);
+
+            var debugImage = args.ImageSet.GetUnfilteredImage();
 
             // Create image of markers
             var angleMap = new AngleMap(processImage);
             var angleImage = angleMap.ToImage();
 
+            AddDebugImage(angleImage, angleImage.Width, angleImage.Height);
+
             // Flip image of markers
             var flippedAngleImage = angleMap.ToFlippedAngleImage();
             var flippedAngleImageConvolution = new Convolution(flippedAngleImage);
 
+            AddDebugImage(flippedAngleImage, flippedAngleImage.Width, flippedAngleImage.Height);
+
             // Analyse image using a mirror convolution
             var candidates = new List<Angle>();
+
             foreach (var c in angleMap.GetMostIntesiveConvolutions(flippedAngleImageConvolution, 15))
             { 
                 candidates.Add(c.Angle + c.Angle.Complementary.Half);
@@ -48,9 +54,13 @@
                 if (angleSpan.FuzzyIncludes(args.HandAngle))
                     continue;
 
-                var convolution = angleMap.GetConvolution(angleSpan);
+                debugImage.DrawRadialLine(startAngle, Color.Blue);
+                debugImage.DrawRadialLine(endAngle, Color.Red);
+
+                var convolution = angleMap.ToConvolution(angleSpan);
                 var convolutionImage = convolution.ToImage();
-                var match =  convolution.Symmetric() * -convolution.Dark();
+                AddDebugImage(convolutionImage, convolutionImage.Width, 16);
+                var match =  convolution.Symmetric();
                 ratedCandidates.Add(angleSpan, match);
             }
 

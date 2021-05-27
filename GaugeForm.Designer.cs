@@ -37,6 +37,7 @@
             this.TestAllButton = new System.Windows.Forms.Button();
             this.TestFolderButton = new System.Windows.Forms.Button();
             this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.ProfileLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // OpenButton
@@ -79,8 +80,9 @@
             // ProfileComboBox
             // 
             this.ProfileComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ProfileComboBox.DisplayMember = "Name";
             this.ProfileComboBox.FormattingEnabled = true;
-            this.ProfileComboBox.Location = new System.Drawing.Point(12, 725);
+            this.ProfileComboBox.Location = new System.Drawing.Point(53, 725);
             this.ProfileComboBox.Name = "ProfileComboBox";
             this.ProfileComboBox.Size = new System.Drawing.Size(121, 21);
             this.ProfileComboBox.TabIndex = 12;
@@ -120,11 +122,22 @@
             this.TestFolderButton.UseVisualStyleBackColor = true;
             this.TestFolderButton.Click += new System.EventHandler(this.TestFolderButton_Click);
             // 
+            // ProfileLabel
+            // 
+            this.ProfileLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ProfileLabel.AutoSize = true;
+            this.ProfileLabel.Location = new System.Drawing.Point(12, 729);
+            this.ProfileLabel.Name = "ProfileLabel";
+            this.ProfileLabel.Size = new System.Drawing.Size(36, 13);
+            this.ProfileLabel.TabIndex = 16;
+            this.ProfileLabel.Text = "Profile";
+            // 
             // GaugeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1266, 906);
+            this.Controls.Add(this.ProfileLabel);
             this.Controls.Add(this.TestFolderButton);
             this.Controls.Add(this.TestAllButton);
             this.Controls.Add(this.DebugCheckBox);
@@ -134,7 +147,7 @@
             this.Controls.Add(this.OpenButton);
             this.Name = "GaugeForm";
             this.Text = "GaugeReader";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.GaugeForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -150,6 +163,7 @@
         private System.Windows.Forms.Button TestAllButton;
         private System.Windows.Forms.Button TestFolderButton;
         private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog;
+        private System.Windows.Forms.Label ProfileLabel;
     }
 }
 

@@ -1,7 +1,8 @@
 ﻿namespace GaugeReader.Extensions
 {
     using AForge.Imaging;
-    using GaugeReader.Models.Coordinates;
+    using GaugeReader.Filters.Models;
+    using GaugeReader.Math.Models.Coordinates;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Drawing2D;
@@ -11,16 +12,16 @@
     {
         public static Bitmap Crop(this Bitmap image, Rectangle rectangle)
         {
-            Bitmap cropped = new Bitmap(rectangle.Width, rectangle.Height);
+            Bitmap output = new Bitmap(rectangle.Width, rectangle.Height);
 
-            using (Graphics g = Graphics.FromImage(cropped))
+            using (Graphics g = Graphics.FromImage(output))
             {
-                g.DrawImage(image, new Rectangle(0, 0, cropped.Width, cropped.Height),
+                g.DrawImage(image, new Rectangle(0, 0, output.Width, output.Height),
                                  rectangle,
                                  GraphicsUnit.Pixel);
             }
 
-            return cropped;
+            return output;
         }
 
         public static UnmanagedImage ToProcessImage(this Bitmap image)
@@ -28,14 +29,14 @@
             return UnmanagedImage.FromManagedImage(image.Clone(new Rectangle(0, 0, image.Width, image.Height), Constants.ProcessFormat));
         }
 
-        public static Bitmap ToDrawImage(this UnmanagedImage image)
+        public static Bitmap ToBitmap(this UnmanagedImage image)
         {
-            return image.ToManagedImage().Clone(new Rectangle(0, 0, image.Width, image.Height), Constants.DrawFormat);
+            return image.ToManagedImage().Clone(new Rectangle(0, 0, image.Width, image.Height), Constants.BitmapFormat);
         }
 
-        public static Bitmap ToDrawImage(this Bitmap image)
+        public static Bitmap ToBitmap(this Bitmap image)
         {
-            return image.Clone(new Rectangle(0, 0, image.Width, image.Height), Constants.DrawFormat);
+            return image.Clone(new Rectangle(0, 0, image.Width, image.Height), Constants.BitmapFormat);
         }
 
         public static Bitmap Copy(this Bitmap image)
@@ -59,14 +60,21 @@
             };
         }
 
-        public static Bitmap Resize(this Bitmap image, int width, int height)
+        public static Bitmap Factor(this Bitmap image, int factor)
         {
-            var destRect = new Rectangle(0, 0, width, height);
-            var destImage = new Bitmap(width, height);
+            return image.Resize(image.Width / factor);
+        }
 
-            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+        public static Bitmap Resize(this Bitmap image, int width)
+        {
+            int height = (image.Height * (width / (double)image.Width)).ToInt();
 
-            using (var graphics = Graphics.FromImage(destImage))
+            var rectangle = new Rectangle(0, 0, width, height);
+            var output = new Bitmap(width, height);
+
+            output.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(output))
             {
                 graphics.CompositingMode = CompositingMode.SourceCopy;
                 graphics.CompositingQuality = CompositingQuality.HighQuality;
@@ -77,11 +85,11 @@
                 using (var wrapMode = new ImageAttributes())
                 {
                     wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                    graphics.DrawImage(image, rectangle, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
                 }
             }
 
-            return destImage;
+            return output;
         }
 
         public static bool Contains(this Bitmap image, ICoordinate c, bool strict = false)
@@ -93,29 +101,14 @@
 
         public static bool Contains(this Bitmap image, PointF p, bool strict = false)
         {
-            var d = strict ? 0 : Constants.DrawMargin;
-            var value = p.X >= 0 - d && p.X <= image.Width + d && p.Y >= 0 - d && p.Y <= image.Height + d;
+            var delta = strict ? 0 : Constants.DrawMargin;
+            var value = p.X >= 0 - delta && p.X <= image.Width + delta && p.Y >= 0 - delta && p.Y <= image.Height + delta;
             return value;
         }
 
-        public static Bitmap Center(this Bitmap image, CartesianCoordinate coordinate)
+        public static Bitmap Filter(this Bitmap input, IFilter filter)
         {
-            Bitmap centered = new Bitmap(image.Width, image.Height);
-
-            var center = coordinate.ToPoint(image);
-
-            var x = (double)image.Width / 2 - center.X;
-            var y = (double)image.Height / 2 - center.Y;
-
-            using (Graphics g = Graphics.FromImage(centered))
-            {
-                g.FillRectangle(new SolidBrush(Constants.MaskColor), new Rectangle(0, 0, centered.Width, centered.Height));
-                g.DrawImage(image, new Point(x.ToInt(), y.ToInt()));
-            }
-
-            image = centered;
-
-            return centered;
+            return filter.Process(input);
         }
     }
 }

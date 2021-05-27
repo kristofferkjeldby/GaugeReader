@@ -1,12 +1,10 @@
 ﻿namespace GaugeReader.Processors
 {
-    using GaugeReader.Extensions;
-    using GaugeReader.Models.Gauges;
-    using GaugeReader.Models.Processors;
+    using GaugeReader.Processors.Models;
 
     public class CenterImageProcessor : Processor
     {
-        public CenterImageProcessor(params GaugeProfile[] profiles) : base(profiles)
+        public CenterImageProcessor(params string[] profileNames) : base(profileNames)
         {
 
         }
@@ -15,8 +13,14 @@
 
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {
-            args.UpdateImages(image => image.Center(args.HandLine.R * args.HandLine.Normal));
-            AddDebugImage(args.ScaledImage);
+            if (args.HandLine == null)
+            {
+                args.Abort();
+                return;
+            }
+
+            args.ImageSet.Center((args.HandLine.R * args.HandLine.Normal).ToPoint(args.ImageSet.GetUnfilteredImage()));
+            AddDebugImage(args.ImageSet);
         }
     }
 }

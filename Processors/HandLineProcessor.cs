@@ -2,7 +2,8 @@
 {
     using AForge.Imaging;
     using GaugeReader.Extensions;
-    using GaugeReader.Models.Processors;
+    using GaugeReader.Math.Models.Lines;
+    using GaugeReader.Processors.Models;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
@@ -15,15 +16,17 @@
         {
             var angles = new List<double>();
 
-            var processImage = args.Profile.HandImage(args).Copy();
-            processImage.MaskRadiusZone(args.Profile.CenterZone, Constants.MaskColor);
+            var processImage = args.ImageSet.GetFilteredImage(args.Profile.HandFilter);
+
+            AddDebugImage(processImage.ToProcessImage());
 
             HoughLineTransformation lineTransform = new HoughLineTransformation();
             lineTransform.ProcessImage(processImage.ToProcessImage());
 
-            var line = lineTransform.GetMostIntensiveLines(500).
+            var line = lineTransform.GetMostIntensiveLines(10).
+                Select(l => new Line(l)).
                 Where(l => args.Profile.CenterZone.Contains(l, args.DialRadius)).
-                OrderByDescending(l => l.Intensity).FirstOrDefault();
+                OrderByDescending(l => l.Intensity);
 
             if (line == null)
             {
@@ -31,8 +34,10 @@
                 return;
             }
 
-            args.HandLine = line.ToLine();
+            args.HandLine = line.FirstOrDefault();
+
             processImage.DrawLine(args.HandLine, Color.Green);
+
             AddDebugImage(processImage);
         }
     }

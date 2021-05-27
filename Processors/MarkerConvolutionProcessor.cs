@@ -1,32 +1,34 @@
 ﻿namespace GaugeReader.Processors
 {
     using GaugeReader.Extensions;
-    using GaugeReader.Models.Angles;
-    using GaugeReader.Models.Gauges;
-    using GaugeReader.Models.Processors;
+    using GaugeReader.Math.Models.Angles;
+    using GaugeReader.Processors.Models;
+    using GaugeReader.Profiles.Models;
     using System.Drawing;
     using System.Linq;
 
     public class MarkerConvolutionProcessor : Processor
     {
-        public MarkerConvolutionProcessor(params GaugeProfile[] profiles) : base(profiles)
+        public override string Name => nameof(MarkerConvolutionProcessor);
+
+        public MarkerConvolutionProcessor(params string[] profileNames) : base(profileNames)
         {
 
         }
 
-        public override string Name => nameof(MarkerConvolutionProcessor);
-
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {
-            var processImage = args.Profile.MarkerImage(args).Copy().DrawRadiusZone(args.Profile.MarkerZone, Constants.MaskColor);
-            AddDebugImage(processImage, null);
-            var debugImage = args.ScaledImage.Copy();
+            var zone = args.IsMarkerIsolated ? new RadiusZone(1 - args.Profile.MarkerZone.Width, 1) : args.Profile.MarkerZone;
+
+            var processImage = args.ImageSet.GetFilteredImage(args.Profile.MarkerFilter).DrawRadiusZone(zone, Constants.MaskColor);
+            AddDebugImage(processImage);
+            var debugImage = args.ImageSet.GetUnfilteredImage();
 
             // Get convolution from profile
             var convolution = args.Profile.MarkerConvolution;
             var angleMap = new AngleMap(processImage);
 
-            AddDebugImage(angleMap.ToImage(), null, 512, 16);
+            AddDebugImage(angleMap.ToImage(), 512, 16, null);
             var candidate = angleMap.GetMostIntesiveConvolutions(convolution, 1).First();
 
             if (candidate == null)
