@@ -13,8 +13,6 @@
 
         public double[] Map { get; set; }
 
-        //private Complex[] frequencyMap;
-
         public AngleMap(Bitmap image)
         {
             var map = new double[Constants.AngleResolution, 2];
@@ -117,26 +115,6 @@
             return angleMapConvolution;
         }
 
-        //public List<AngleMapFrequency> GetFrequencies()
-        //{
-        //    var maxIntensity = frequencyMap.Max(c => c.Magnitude);
-        //    var frequencies = new List<AngleMapFrequency>();
-
-        //    for (int i = 0; i < frequencyMap.Length; i++)
-        //    {
-        //        if (i == 0)
-        //            frequencies.Add(new AngleMapFrequency(new Angle(Constants.PI2), 0, 0, 0, 0));
-
-        //        var value = frequencyMap[i];
-        //        var waveLength = new Angle(Constants.PI2 / (i));
-        //        var phase = new Angle(value.Phase);
-        //        var relativeIntensity = value.Magnitude / maxIntensity;
-        //        frequencies.Add(new AngleMapFrequency(waveLength, phase, value.Magnitude, value.Magnitude, relativeIntensity));
-        //    }
-
-        //    return frequencies;
-        //}
-
         public AngleMapAngle[] GetMostIntesiveAngles(int count)
         {
             return GetAngles().OrderByDescending(a => a.Intensity).Take(count).ToArray();
@@ -146,11 +124,6 @@
         {
             return GetConvolutions(convolution).OrderByDescending(a => a.Intensity).Take(count).ToArray();
         }
-
-        //public AngleMapFrequency[] GetMostIntesiveFrequencies(int count)
-        //{
-        //    return GetFrequencies().OrderByDescending(a => a.Intensity).Take(count).OrderByDescending(f => f.WaveLength).ToArray();
-        //}
 
         public Bitmap ToImage(int height = 16, AngleSpan angleSpan = null)
         {
@@ -187,23 +160,5 @@
 
             return image;
         }
-
-        //public Bitmap ToFrequencyImage(int height = 16)
-        //{
-        //    var frequencies = GetFrequencies();
-
-        //    var image = new Bitmap(frequencies.Count, height);
-
-        //    for (int x = 0; x < image.Width; x++)
-        //    {
-        //        var color = frequencies[x].Color;
-        //        for (int y = 0; y < height; y++)
-        //        {
-        //            image.SetPixel(x, y, color);
-        //        }
-        //    }
-
-        //    return image;
-        //}
     }
 }

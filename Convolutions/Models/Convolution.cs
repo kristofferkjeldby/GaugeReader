@@ -1,6 +1,7 @@
 ﻿namespace GaugeReader.Convolutions.Models
 {
     using GaugeReader.Extensions;
+    using GaugeReader.Math.Models.Angles;
     using System;
     using System.Drawing;
     using System.Linq;
@@ -21,6 +22,11 @@
             }
 
             map = map.Normalize();
+        }
+
+        public Convolution(double value, Angle width)
+        {
+            map = Enumerable.Repeat(value, width.Steps).ToArray();
         }
 
         public double this[int index]

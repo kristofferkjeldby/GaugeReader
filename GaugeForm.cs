@@ -1,6 +1,5 @@
 ﻿using GaugeReader.Extensions;
 using GaugeReader.Images.Models;
-using GaugeReader.Math.Models.Angles;
 using GaugeReader.Processors;
 using GaugeReader.Processors.Models;
 using GaugeReader.Profiles.Helpers;
@@ -31,7 +30,7 @@ namespace GaugeReader
                 new LocateGaugeProcessor(),
 
                 // Isolate dial
-                new LocateMarkerProcessor("Thermometer", "Hygrometer"),
+                new IsolateMarkerProcessor("Thermometer", "Hygrometer"),
 
                 // Find hand
                 new HandLineProcessor(),
@@ -39,8 +38,7 @@ namespace GaugeReader
                 new HandAngleProcessor(),
                 
                 // Find markers
-                //new MarkerSymmetryProcessor("Simple", "Hygrometer"),
-                new MarkerConvolutionProcessor("Thermometer"),
+                new MarkerConvolutionProcessor(),
 
                 // Find result
                 new ResultProcessor()

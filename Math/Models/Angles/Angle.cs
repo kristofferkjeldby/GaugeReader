@@ -1,5 +1,6 @@
 ﻿namespace GaugeReader.Math.Models.Angles
 {
+    using GaugeReader.Extensions;
     using System;
 
     public class Angle : IComparable<Angle>
@@ -79,5 +80,7 @@
         public Angle Complementary => new Angle(Constants.PI2 - Value);
 
         public Angle Half => new Angle(Value / 2);
+
+        public int Steps => (Constants.AngleResolution / Constants.PI2 * Value).ToInt();
     }
 }

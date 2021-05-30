@@ -20,7 +20,7 @@
 
         public Func<int, string> Reading => percent => $"{percent}%";
 
-        public Convolution MarkerConvolution => null;
+        public Convolution MarkerConvolution => new Convolution(1, MarkerAngle);
 
         public IFilter MarkerFilter => new BrightnessCutoffFilter(0.2);
 

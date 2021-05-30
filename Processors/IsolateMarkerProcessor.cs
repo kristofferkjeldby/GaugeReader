@@ -11,14 +11,14 @@
     using System.Linq;
     using Math.Models.Angles;
 
-    public class LocateMarkerProcessor : Processor
+    public class IsolateMarkerProcessor : Processor
     {
-        public LocateMarkerProcessor(params string[] profileNames) : base(profileNames)
+        public IsolateMarkerProcessor(params string[] profileNames) : base(profileNames)
         {
 
         }
 
-        public override string Name => nameof(LocateMarkerProcessor);
+        public override string Name => nameof(IsolateMarkerProcessor);
 
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {

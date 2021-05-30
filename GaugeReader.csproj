@@ -65,7 +65,9 @@
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Extensions\BitmapExtensions.cs" />
     <Compile Include="Filters\AForgeWrapperFilter.cs" />
-    <Compile Include="Filters\BrightnessFilter.cs" />
+    <Compile Include="Filters\DifferenceEdgeFilter.cs" />
+    <Compile Include="Filters\BrightnessCutoffFilter.cs" />
+    <Compile Include="Filters\BightnessFilter.cs" />
     <Compile Include="Filters\EdgeFilter.cs" />
     <Compile Include="Filters\ChainFilter.cs" />
     <Compile Include="Filters\NormalizeFilter.cs" />
@@ -87,7 +89,6 @@
     <Compile Include="Math\Models\Angles\AngleMapConvolution.cs" />
     <Compile Include="Convolutions\Models\Convolution.cs" />
     <Compile Include="Math\Models\Angles\Frequency.cs" />
-    <Compile Include="Math\Models\Angles\AngleMapFrequency.cs" />
     <Compile Include="Math\Models\Angles\AngleSpan.cs" />
     <Compile Include="Math\Models\Angles\AngleMap.cs" />
     <Compile Include="Math\Models\Angles\AngleMapAngle.cs" />
@@ -118,9 +119,8 @@
     <Compile Include="Processors\TestProcessors\MaskDialZoneTestProcessor.cs" />
     <Compile Include="Processors\TestProcessors\MaskLineTestProcessor.cs" />
     <Compile Include="Processors\TestProcessors\LineTestProcessor.cs" />
-    <Compile Include="Processors\MarkerSymmetryProcessor.cs" />
     <Compile Include="Processors\TestProcessors\CoordinateTestProcessor.cs" />
-    <Compile Include="Processors\LocateMarkerProcessor.cs" />
+    <Compile Include="Processors\IsolateMarkerProcessor.cs" />
     <Compile Include="Processors\HandAngleProcessor.cs" />
     <Compile Include="Processors\HandLineProcessor.cs" />
     <Compile Include="Processors\Models\Processor.cs" />
@@ -154,6 +154,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Convolutions\Images\hygrometer.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Convolutions\Images\middle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -163,7 +166,6 @@
     <Content Include="Convolutions\Images\thermometer.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestSets\dummy.jpg" />
     <Content Include="TestSets\Hygrometer\hygrometer_1_ex_48.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
