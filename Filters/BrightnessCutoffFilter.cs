@@ -12,7 +12,7 @@
             this.cutoff = cutoff;
         }
 
-        public string Key => nameof(BrightnessCutoffFilter);
+        public string Name => nameof(BrightnessCutoffFilter);
 
         public Bitmap Process(Bitmap input)
         {

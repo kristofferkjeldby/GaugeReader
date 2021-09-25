@@ -4,18 +4,15 @@
     using GaugeReader.Extensions;
     using GaugeReader.Math.Models.Lines;
     using GaugeReader.Processors.Models;
-    using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
 
-    public class HandLineProcessor : Processor
+    public class HandPreprocessor : Processor
     {
-        public override string Name => nameof(HandLineProcessor);
+        public override string Name => nameof(HandPreprocessor);
 
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {
-            var angles = new List<double>();
-
             var processImage = args.ImageSet.GetFilteredImage(args.Profile.HandFilter);
 
             AddDebugImage(processImage.ToProcessImage());
@@ -23,20 +20,22 @@
             HoughLineTransformation lineTransform = new HoughLineTransformation();
             lineTransform.ProcessImage(processImage.ToProcessImage());
 
-            var line = lineTransform.GetMostIntensiveLines(10).
+            var lines = lineTransform.GetMostIntensiveLines(10).
                 Select(l => new Line(l)).
                 Where(l => args.Profile.CenterZone.Contains(l, args.DialRadius)).
-                OrderByDescending(l => l.Intensity);
+                OrderByDescending(l => l.Intensity).ToArray();
 
-            if (line == null)
+            if (lines.Count() < 2)
             {
                 args.Aborted = true;
                 return;
             }
 
-            args.HandLine = line.FirstOrDefault();
+            args.Gauge.Hand.Line1 = lines[0];
+            args.Gauge.Hand.Line2 = lines[1];
 
-            processImage.DrawLine(args.HandLine, Color.Green);
+            processImage.DrawLine(args.Gauge.Hand.Line1, Color.Lime);
+            processImage.DrawLine(args.Gauge.Hand.Line2, Color.Lime);
 
             AddDebugImage(processImage);
         }

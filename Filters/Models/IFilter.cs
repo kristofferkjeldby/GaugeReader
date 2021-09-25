@@ -6,6 +6,6 @@
     {
         Bitmap Process(Bitmap image);
 
-        string Key { get; }
+        string Name { get; }
     }
 }

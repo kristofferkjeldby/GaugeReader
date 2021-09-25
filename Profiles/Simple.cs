@@ -1,6 +1,5 @@
 ﻿namespace GaugeReader.Profiles
 {
-    using GaugeReader.Convolutions.Models;
     using GaugeReader.Extensions;
     using GaugeReader.Filters;
     using GaugeReader.Filters.Models;
@@ -12,18 +11,18 @@
     {
         public string Name => nameof(Simple);
 
+        public RadiusZone DialZone => new RadiusZone(0.6, 1);
+
         public RadiusZone CenterZone => new RadiusZone(0, 0.1);
 
-        public RadiusZone MarkerZone => new RadiusZone(0.7, 0.9);
+        public RadiusZone MarkerZone => new RadiusZone(0.7, 1);
 
         public Angle MarkerAngle => 270d.ToRadians();
 
         public Func<int, string> Reading => percent => $"{percent}%";
 
-        public Convolution MarkerConvolution => new Convolution(1, MarkerAngle);
+        public IFilter MarkerFilter => new CannyFilter();
 
-        public IFilter MarkerFilter => new BrightnessCutoffFilter(0.2);
-
-        public IFilter HandFilter => new InvertFilter();
+        public IFilter HandFilter => new CannyFilter();
     }
 }

@@ -10,8 +10,14 @@
             Value = ToCyclicAngle(value);
         }
 
+        public Angle(int step) : this(Constants.PI2 * ((double)step / Constants.AngleResolution))
+        {
+            
+        }
+
         public static Angle operator +(Angle a, Angle b) => new Angle(a.Value + b.Value);
         public static Angle operator -(Angle a, Angle b) => new Angle(a.Value - b.Value);
+        public static Angle operator *(int a, Angle b) => new Angle(a * b.Value);
         public static bool operator <(Angle a, Angle b) => a.Value < b.Value;
         public static bool operator >(Angle a, Angle b) => a.Value > b.Value;
         public static bool operator <=(Angle a, Angle b) => a.Value <= b.Value;
@@ -75,12 +81,17 @@
             return Value.CompareTo(other.Value);
         }
 
+        public bool FuzzyEquals(double otherAngle)
+        {
+            return Math.Abs(Value - otherAngle) < Constants.DegreeDelta;
+        }
+
         public Angle Opposite => new Angle(Value + Constants.PI);
 
         public Angle Complementary => new Angle(Constants.PI2 - Value);
 
         public Angle Half => new Angle(Value / 2);
 
-        public int Steps => (Constants.AngleResolution / Constants.PI2 * Value).ToInt();
+        public int Step => (Constants.AngleResolution / Constants.PI2 * Value).ToInt();
     }
 }

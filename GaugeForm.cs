@@ -23,22 +23,24 @@ namespace GaugeReader
 
             processors = new List<Processor>()
             {
+                // Load image
                 new LoadImageProcessor(),
                 new SelectProfileProcessor(),
 
-                // Isolate gauge from image
-                new LocateGaugeProcessor(),
+                // Dial
+                new DialPreprocessor(),
+                new DialProcessor(),
 
-                // Isolate dial
-                new IsolateMarkerProcessor("Thermometer", "Hygrometer"),
-
-                // Find hand
-                new HandLineProcessor(),
-                new CenterImageProcessor(),
-                new HandAngleProcessor(),
+                // Find
+                new HandPreprocessor(),
+                new HandProcessor(),
                 
                 // Find markers
-                new MarkerConvolutionProcessor(),
+                //new MarkersSymmetriProcessor(),
+                new TicksPreprocessor(),
+                new TicksProcessor(),
+
+                new TicksAngleSpanProcessor(),
 
                 // Find result
                 new ResultProcessor()
@@ -47,7 +49,6 @@ namespace GaugeReader
 
         private void GaugeForm_Load(object sender, EventArgs e)
         {
-            // Setup profile selector
             ProfileHelper.GetProfiles().ForEach(p => ProfileComboBox.Items.Add(p));
 
             if (!string.IsNullOrEmpty(Constants.DefaultPath))
@@ -85,7 +86,7 @@ namespace GaugeReader
                     Log($"File: {filepath} failed. {processor.Name} aborted after {stopWatch.ElapsedMilliseconds}", false);
                     var abortedImage = args.ImageSet.GetUnfilteredImage();
                     abortedImage.DrawText("Aborted", Color.Red);
-                    AddOutputImage(new OutputImage(abortedImage, 200, 200, $"{processor.Name}: Aborted"));
+                    AddOutputImage(new OutputImage(abortedImage, $"{processor.Name}: Aborted"));
 
                     return;
                 }
@@ -106,7 +107,7 @@ namespace GaugeReader
             }
 
 
-            AddOutputImage(new OutputImage(args.ResultImage.GetUnfilteredImage(), 200, 200, $"Result: {args.Profile.Reading(args.ActualValue.GetValueOrDefault())}"));
+            AddOutputImage(new OutputImage(args.ResultImage, $"Result: {args.Profile.Reading(args.ActualValue.GetValueOrDefault())}"));
         }
 
         private void AddOutputImage(OutputImage outputImage)
@@ -161,7 +162,6 @@ namespace GaugeReader
             if (!string.IsNullOrWhiteSpace(LogTextBox.Text))
                 LogTextBox.AppendText(Environment.NewLine);
             LogTextBox.AppendText(message);
-
         }
 
         private void TestAllButton_Click(object sender, EventArgs e)

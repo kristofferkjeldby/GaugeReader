@@ -6,6 +6,6 @@
     {
         public override IFilter Filter => new DifferenceEdgeDetector();
 
-        public override string Key => nameof(DifferenceEdgeFilter);
+        public override string Name => nameof(DifferenceEdgeFilter);
     }
 }

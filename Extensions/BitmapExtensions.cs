@@ -3,6 +3,7 @@
     using AForge.Imaging;
     using GaugeReader.Filters.Models;
     using GaugeReader.Math.Models.Coordinates;
+    using GaugeReader.Math.Models.Maps;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Drawing2D;
@@ -101,7 +102,7 @@
 
         public static bool Contains(this Bitmap image, PointF p, bool strict = false)
         {
-            var delta = strict ? 0 : Constants.DrawMargin;
+            var delta = strict ? 0 : Constants.ImageDrawMargin;
             var value = p.X >= 0 - delta && p.X <= image.Width + delta && p.Y >= 0 - delta && p.Y <= image.Height + delta;
             return value;
         }
@@ -109,6 +110,20 @@
         public static Bitmap Filter(this Bitmap input, IFilter filter)
         {
             return filter.Process(input);
+        }
+
+        public static Map ToMap(this Bitmap image)
+        {
+            var map = new double[image.Width];
+
+            for (int i = 0; i < image.Width; i++)
+            {
+                map[i] = image.GetPixel(i, 0).GetBrightness();
+            }
+
+            map.Normalize();
+
+            return new Map(map);
         }
     }
 }

@@ -1,12 +1,12 @@
-﻿using System.Drawing;
-
-namespace GaugeReader.Images.Models
+﻿namespace GaugeReader.Images.Models
 {
-    public abstract class ImageCrop
+    using System.Drawing;
+
+    public abstract class Crop
     {
         public Rectangle Rectangle { get; set; }
 
-        public ImageCrop(Rectangle rectangle)
+        public Crop(Rectangle rectangle)
         {
             Rectangle = rectangle;
         }

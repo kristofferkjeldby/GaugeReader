@@ -52,13 +52,13 @@
             using (var g = Graphics.FromImage(image))
             {
                 g.CompositingMode = CompositingMode.SourceCopy;
-                g.DrawLine(new Pen(color, 5), intersections[0].ToPoint(image), intersections[1].ToPoint(image));
+                g.DrawLine(new Pen(color, 1), intersections[0].ToPoint(image), intersections[1].ToPoint(image));
             }
 
             return image;
         }
 
-        public static Bitmap DrawRadialLine(this Bitmap image, RadialLine line, Color color)
+        public static Bitmap DrawRadialLine(this Bitmap image, RadialLine line, Color color, int width = 1)
         {
             var intersections = line.Intersections(image).
                 Where(c => image.Contains(c)).
@@ -70,7 +70,7 @@
             using (var g = Graphics.FromImage(image))
             {
                 g.CompositingMode = CompositingMode.SourceCopy;
-                g.DrawLine(new Pen(color, 5), new CartesianCoordinate(0, 0).ToPoint(image), intersections[1].ToPoint(image));
+                g.DrawLine(new Pen(color, width), new CartesianCoordinate(0, 0).ToPoint(image), intersections[1].ToPoint(image));
             }
 
             return image;
@@ -91,17 +91,21 @@
         }
 
 
-        public static Bitmap DrawCircle(this Bitmap image, Circle circle, Color color)
+        public static Bitmap DrawCircle(this Bitmap image, Circle circle, Color color, bool fill = true)
         {
-            return image.DrawCircle(circle.ToRectangle(image), color);
+            return image.DrawCircle(circle.ToRectangle(image), color, fill);
         }
 
-        public static Bitmap DrawCircle(this Bitmap image, Rectangle rectangle, Color color)
+        public static Bitmap DrawCircle(this Bitmap image, Rectangle rectangle, Color color, bool fill = true)
         {
             using (Graphics g = Graphics.FromImage(image))
             {
                 g.CompositingMode = CompositingMode.SourceCopy;
-                g.FillEllipse(new SolidBrush(color), rectangle);
+                if (fill)
+                    g.FillEllipse(new SolidBrush(color), rectangle);
+                else
+                    g.DrawEllipse(new Pen(color, 1), rectangle);
+
             }
 
             return image;
@@ -109,7 +113,7 @@
 
         public static Bitmap DrawAngleSpan(this Bitmap image, AngleSpan angleSpan, Color color)
         {
-            return image.MaskAngleSpan(angleSpan.Opposite, color);
+            return image.MaskAngleSpan(angleSpan.Opposite, color, true);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace GaugeReader.Processors
 {
     using GaugeReader.Extensions;
-    using GaugeReader.Images.Models;
+    using GaugeReader.Filters;
     using GaugeReader.Math.Models.Angles;
     using GaugeReader.Processors.Models;
     using System;
@@ -13,23 +13,36 @@
 
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {
-            var processImage = args.ImageSet.GetUnfilteredImage().Resize(200);
+            var resultImage = args.ImageSet.OriginalImage.ToBitmap();
+            var edgeOverlayImage = args.ImageSet.GetFilteredImage(new CannyFilter()).Filter(new MaskFilter(Color.Lime));
 
-            if (args.MarkerAngleSpan == null || args.HandAngle == null)
+            if (args.Gauge.Hand.Angle == null)
             {
                 args.Abort();
                 return;
             }
 
-            processImage.DrawRadialLine(args.MarkerAngleSpan.StartAngle, Color.Blue);
-            processImage.DrawRadialLine(args.MarkerAngleSpan.EndAngle, Color.Red);
-            processImage.DrawRadialLine(args.HandAngle, Color.Green);
+            edgeOverlayImage.DrawRadialLine(args.Gauge.Hand.Angle, Color.Red, 3);
 
-            var markedAngle = new AngleSpan(args.HandAngle, args.MarkerAngleSpan.EndAngle);
-            args.ActualValue = ((markedAngle.Width / args.MarkerAngleSpan.Width) * 100).ToInt();
+            var tickOverlayImage = new Bitmap(edgeOverlayImage.Width, edgeOverlayImage.Height).Filter(new FillFilter(Color.FromArgb(40, Color.Red.R, Color.Red.G, Color.Red.B))).
+                DrawRadiusZone(args.Profile.MarkerZone, Constants.ImageMaskColor).MaskAngleSpan(args.Gauge.TicksAngleSpan.Opposite, Constants.ImageMaskColor);
+
+
+            edgeOverlayImage.SetResolution(resultImage.VerticalResolution, resultImage.HorizontalResolution);
+            tickOverlayImage.SetResolution(resultImage.VerticalResolution, resultImage.HorizontalResolution);
+
+            using (Graphics gr = Graphics.FromImage(resultImage))
+            {
+                gr.DrawImage(tickOverlayImage, new Point(args.ImageSet.Crop.X, args.ImageSet.Crop.Y));
+                gr.DrawImage(edgeOverlayImage, new Point(args.ImageSet.Crop.X, args.ImageSet.Crop.Y));
+            }
+
+
+            var markedAngle = new AngleSpan(args.Gauge.Hand.Angle, args.Gauge.TicksAngleSpan.EndAngle);
+            args.ActualValue = ((markedAngle.Width / args.Gauge.TicksAngleSpan.Width) * 100).ToInt();
 
             var color = Color.Yellow;
-            var actualValueText = args.Profile.Reading(args.ActualValue.GetValueOrDefault(-1)); 
+            var actualValueText = args.Profile.Reading(args.ActualValue.GetValueOrDefault(-1));
 
             if (args.ExpectedValue.HasValue)
             {
@@ -49,9 +62,9 @@
                 }
             }
 
-            processImage.DrawText(actualValueText, color);
+            resultImage.DrawText(actualValueText, color);
 
-            args.ResultImage = new ImageSet(processImage);
+            args.ResultImage = resultImage;
         }
     }
 }

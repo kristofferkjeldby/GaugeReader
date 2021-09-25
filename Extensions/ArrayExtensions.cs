@@ -4,18 +4,20 @@
 
     public static class ArrayExtensions
     {
-        public static double[] Normalize(this double[] array)
+        public static void Normalize(this double[] array, double min = -1, double max = 1)
         {
-            var max = array.Max();
-            var min = array.Min();
-            var span = max - min;
+            var oldMax = array.Max();
+            var oldMin = array.Min();
 
-            for (int step = 0; step < array.Length; step++)
+            var oldSpan = oldMax - oldMin;      
+            var newSpan = max - min;
+
+            var factor = newSpan / oldSpan;
+
+            for (int i = 0; i < array.Length; i++)
             {
-                array[step] = ((array[step] - min) / span).Limit(0, 1);
+                array[i] = ((array[i] - oldMin) * factor) + min;
             }
-
-            return array;
         }
     }
 }

@@ -10,29 +10,31 @@
         // Image settings
         public static PixelFormat BitmapFormat = PixelFormat.Format32bppArgb;
         public static PixelFormat ProcessFormat = PixelFormat.Format8bppIndexed;
-        public static int DrawMargin = 10;
-        public static Color MaskColor = Color.FromArgb(0, 0, 0, 0);
+        public static int ImageDrawMargin = 10;
+        public static Color ImageMaskColor = Color.FromArgb(0, 0, 0, 0);
+        public static int ImageMapHeight = 16;
 
         // Deltas
         public const int DeltaDecimals = 2;
         public static string DeltaFormat = $"n{DeltaDecimals}";
         public static double Delta = System.Math.Pow(0.1f, DeltaDecimals);
-        public static double DegreeDelta = 3d.ToRadians();
+        public static double DegreeDelta = 2d.ToRadians();
 
-        // Constants
+        // Angles
         public static double PI = System.Math.PI;
         public static double PI2 = PI * 2;
+        public static int AngleResolution = 1024;
+        public static Angle AngleStepSize = new Angle(PI2 / AngleResolution);
 
-        // Search settins
+
+        // Search settings
         public static RadiusZone SearchRadius = new RadiusZone(0.2, 1); 
         public static int ScaleWidth = 600;
         public static double HandSearchAngle = PI / 8;
-
-        public static int AngleResolution = 512;
+        public static int MinTicks = 12;
 
         public static string FallbackProfileName = "Simple";
-        public static string DefaultPath = "TestSets/Hygrometer/hygrometer_1_ex_48.jpg";
-
+        public static string DefaultPath = @"TestSets\Simple\simple_1_ex_0.jpg";
 
     }
 }

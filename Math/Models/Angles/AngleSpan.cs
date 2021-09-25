@@ -23,7 +23,7 @@
             ZeroCross = startAngle > endAngle;
         }
 
-        public double Width
+        public Angle Width
         {
             get
             {
@@ -72,10 +72,8 @@
         public bool FuzzyIncludes(Angle angle)
         {
             if (!ZeroCross)
-                return angle >= StartAngle + Constants.DegreeDelta && angle <= EndAngle - Constants.DegreeDelta;
-            return angle >= StartAngle + Constants.DegreeDelta || angle <= EndAngle - Constants.DegreeDelta;
+                return angle > StartAngle - Constants.DegreeDelta && angle < EndAngle + Constants.DegreeDelta;
+            return angle > StartAngle - Constants.DegreeDelta || angle < EndAngle + Constants.DegreeDelta;
         }
-
-
     }
 }

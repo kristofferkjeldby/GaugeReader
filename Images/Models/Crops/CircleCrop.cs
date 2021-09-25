@@ -3,16 +3,16 @@
     using GaugeReader.Extensions;
     using System.Drawing;
 
-    public class CircleImageCrop : ImageCrop
+    public class CircleCrop : Crop
     {
-        public CircleImageCrop(Rectangle rectangle) : base(rectangle)
+        public CircleCrop(Rectangle rectangle) : base(rectangle)
         {
 
         }
 
         public override Bitmap Process(Bitmap input)
         {
-            return input.MaskCircle(Rectangle, Constants.MaskColor).Crop(Rectangle);
+            return input.MaskCircle(Rectangle, Constants.ImageMaskColor).Crop(Rectangle);
         }
     }
 }

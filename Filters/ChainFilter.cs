@@ -13,7 +13,7 @@
             this.filters = filters;
         }
 
-        public string Key => nameof(RedFilter);
+        public string Name => nameof(RedFilter);
 
         public Bitmap Process(Bitmap input)
         {

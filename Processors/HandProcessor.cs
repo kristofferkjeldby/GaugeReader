@@ -10,9 +10,9 @@
     using System.Drawing;
     using System.Linq;
 
-    public class HandAngleProcessor : Processor
+    public class HandProcessor : Processor
     {
-        public override string Name => "HandAngleProcessor";
+        public override string Name => nameof(HandProcessor);
 
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {
@@ -20,8 +20,8 @@
 
             var maskAngles = new List<Angle>()
                 {
-                    args.HandLine.Angle,
-                    args.HandLine.Angle.Opposite,
+                    args.Gauge.Hand.Line1.Angle,
+                    args.Gauge.Hand.Line1.Angle.Opposite,
                 };
 
             var maskedLines = new Dictionary<Bitmap, Tuple<Angle, Line>>();
@@ -30,7 +30,7 @@
             {
                 var maskAngleSpan = new AngleSpan(maskAngle + Constants.HandSearchAngle, maskAngle - Constants.HandSearchAngle);
 
-                var maskedImage = processImage.Copy().MaskAngleSpan(maskAngleSpan, Constants.MaskColor);
+                var maskedImage = processImage.Copy().MaskAngleSpan(maskAngleSpan, Constants.ImageMaskColor);
                 HoughLineTransformation maskedTransform = new HoughLineTransformation();
                 maskedTransform.ProcessImage(maskedImage.ToProcessImage());
 
@@ -50,10 +50,10 @@
             }
 
             var kv = maskedLines.OrderByDescending(ml => ml.Value.Item2.Intensity).FirstOrDefault();
-            args.HandLine = new RadialLine(kv.Value.Item1);
-            kv.Key.DrawRadialLine(args.HandLine as RadialLine, Color.Green);
-            args.HandAngle = args.HandLine.Angle;
-            AddMessage($"Hand angle found: {args.HandAngle}", true);
+            kv.Key.DrawLine(args.Gauge.Hand.Line1, Color.Lime);
+            kv.Key.DrawLine(args.Gauge.Hand.Line2, Color.Lime);
+            args.Gauge.Hand.Angle = args.Gauge.Hand.Line1.Angle.Opposite;
+            AddMessage($"Hand angle found: {args.Gauge.Hand.Angle}", true);
             AddDebugImage(kv.Key);
         }
     }

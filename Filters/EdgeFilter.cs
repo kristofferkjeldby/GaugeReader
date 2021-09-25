@@ -6,6 +6,6 @@
     {
         public override IFilter Filter => new HomogenityEdgeDetector();
 
-        public override string Key => nameof(EdgeFilter);
+        public override string Name => nameof(EdgeFilter);
     }
 }

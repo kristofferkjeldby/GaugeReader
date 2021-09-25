@@ -6,7 +6,7 @@
 
     public class NormalizeFilter : IFilter
     {
-        public string Key => nameof(NormalizeFilter);
+        public string Name => nameof(NormalizeFilter);
 
         public Bitmap Process(Bitmap image)
         {
@@ -20,7 +20,7 @@
                 for (int y = 0; y < image.Height; y++)
                 {
                     Color c = image.GetPixel(x, y);
-                    if (c == Constants.MaskColor)
+                    if (c == Constants.ImageMaskColor)
                         continue;
                     float brightness = c.GetBrightness();
                     if (brightness < minBrightness)

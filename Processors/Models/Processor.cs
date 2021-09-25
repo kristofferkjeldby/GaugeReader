@@ -3,9 +3,7 @@
     using AForge.Imaging;
     using GaugeReader.Extensions;
     using GaugeReader.Images.Models;
-    using GaugeReader.Profiles.Models;
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Drawing;
     using System.Linq;
@@ -50,20 +48,20 @@
 
         public abstract void Process(ProcessorArgs args, ProcessorResult result);
 
-        public void AddDebugImage(Bitmap image, int width = 200, int height = 200, string caption = null)
+        public void AddDebugImage(Bitmap image, string caption = null)
         {
-            var debugImage = new OutputImage(image.Copy(), width, height, caption ?? Name);
+            var debugImage = new OutputImage(image, caption ?? Name, image.Width, image.Height);
             result.DebugImage.Add(debugImage);
         }
 
-        public void AddDebugImage(UnmanagedImage image, int width = 200, int height = 200, string caption = null)
+        public void AddDebugImage(IImageable imageable, string caption = null)
         {
-            AddDebugImage(image.ToBitmap(), width, height, caption);
+            AddDebugImage(imageable.ToImage(), caption);
         }
 
-        public void AddDebugImage(ImageSet imageSet, int width = 200, int height = 200, string caption = null)
+        public void AddDebugImage(UnmanagedImage image, string caption = null)
         {
-            AddDebugImage(imageSet.GetUnfilteredImage(), width, height, caption);
+            AddDebugImage(image.ToBitmap(), caption);
         }
 
         public void AddMessage(string message, bool debug = true)

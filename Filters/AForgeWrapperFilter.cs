@@ -8,7 +8,7 @@
     {
         public abstract AForge.Imaging.Filters.IFilter Filter { get; }
 
-        public abstract string Key { get; }
+        public abstract string Name { get; }
 
         public Bitmap Process(Bitmap image)
         {

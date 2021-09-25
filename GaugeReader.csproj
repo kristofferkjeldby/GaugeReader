@@ -68,8 +68,11 @@
     <Compile Include="Filters\DifferenceEdgeFilter.cs" />
     <Compile Include="Filters\BrightnessCutoffFilter.cs" />
     <Compile Include="Filters\BightnessFilter.cs" />
+    <Compile Include="Filters\CannyFilter.cs" />
     <Compile Include="Filters\EdgeFilter.cs" />
     <Compile Include="Filters\ChainFilter.cs" />
+    <Compile Include="Filters\FillFilter.cs" />
+    <Compile Include="Filters\MaskFilter.cs" />
     <Compile Include="Filters\NormalizeFilter.cs" />
     <Compile Include="Filters\NoFilter.cs" />
     <Compile Include="Filters\RedFilter.cs" />
@@ -81,48 +84,50 @@
     <Compile Include="GaugeForm.Designer.cs">
       <DependentUpon>GaugeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Images\Models\CircleImageCrop.cs" />
-    <Compile Include="Images\Models\ImageCrop.cs" />
+    <Compile Include="Gauge\Models\Gauge.cs" />
+    <Compile Include="Gauge\Models\Hand.cs" />
+    <Compile Include="Gauge\Models\TickAngleSpan.cs" />
+    <Compile Include="Images\Models\Crops\CircleCrop.cs" />
+    <Compile Include="Images\Models\IImageable.cs" />
+    <Compile Include="Images\Models\Crops\Crop.cs" />
     <Compile Include="Images\Models\ImageFile.cs" />
     <Compile Include="Images\Models\ImageSet.cs" />
     <Compile Include="Math\Models\Angles\Angle.cs" />
-    <Compile Include="Math\Models\Angles\AngleMapConvolution.cs" />
-    <Compile Include="Convolutions\Models\Convolution.cs" />
+    <Compile Include="Math\Models\Maps\CircularMap.cs" />
+    <Compile Include="Math\Models\Maps\Mapable.cs" />
+    <Compile Include="Processors\TickProcessor.cs" />
+    <Compile Include="Processors\TicksPreprocessor.cs" />
+    <Compile Include="Processors\TicksAngleSpanProcessor.cs" />
+    <Compile Include="Transformations\CorrelationTransformation.cs" />
+    <Compile Include="Transformations\FrequencyTransformation.cs" />
+    <Compile Include="Transformations\AngleMapTransformation.cs" />
+    <Compile Include="Gauge\Models\Tick.cs" />
     <Compile Include="Math\Models\Angles\Frequency.cs" />
+    <Compile Include="Math\Models\Maps\Correlation.cs" />
     <Compile Include="Math\Models\Angles\AngleSpan.cs" />
-    <Compile Include="Math\Models\Angles\AngleMap.cs" />
-    <Compile Include="Math\Models\Angles\AngleMapAngle.cs" />
     <Compile Include="Math\Models\Circles\Circle.cs" />
     <Compile Include="Math\Models\Coordinates\ICoordinate.cs" />
     <Compile Include="Math\Models\Coordinates\SphericalCoordinate.cs" />
     <Compile Include="Math\Models\Coordinates\CartesianCoordinate.cs" />
-    <Compile Include="Processors\LocateGaugeProcessor.cs" />
+    <Compile Include="Math\Models\Maps\Map.cs" />
+    <Compile Include="Processors\DialProcessor.cs" />
+    <Compile Include="Processors\DialPreprocessor.cs" />
     <Compile Include="Processors\LoadImageProcessor.cs" />
+    <Compile Include="Processors\MarkersSymmetriProcessor.cs" />
     <Compile Include="Processors\SelectProfileProcessor.cs" />
     <Compile Include="Profiles\Helpers\ProfileHelper.cs" />
     <Compile Include="Profiles\Simple.cs" />
-    <Compile Include="Profiles\Thermometer.cs" />
-    <Compile Include="Profiles\Hygrometer.cs" />
     <Compile Include="Profiles\Models\IProfile.cs" />
     <Compile Include="Math\Models\Lines\RadialLine.cs" />
     <Compile Include="Math\Models\Lines\Line.cs" />
-    <Compile Include="Processors\FilterProcessor.cs" />
     <Compile Include="Processors\Models\ProcessorMessage.cs" />
     <Compile Include="Processors\Models\DebugImage.cs" />
     <Compile Include="Processors\Models\ProcessorArgs.cs" />
     <Compile Include="Processors\Models\ProcessorResult.cs" />
     <Compile Include="Math\Models\Angles\RadiusZone.cs" />
-    <Compile Include="Processors\CenterImageProcessor.cs" />
-    <Compile Include="Processors\MarkerConvolutionProcessor.cs" />
     <Compile Include="Processors\ResultProcessor.cs" />
-    <Compile Include="Processors\TestProcessors\MaskAngleSpanTestProcessor.cs" />
-    <Compile Include="Processors\TestProcessors\MaskDialZoneTestProcessor.cs" />
-    <Compile Include="Processors\TestProcessors\MaskLineTestProcessor.cs" />
-    <Compile Include="Processors\TestProcessors\LineTestProcessor.cs" />
-    <Compile Include="Processors\TestProcessors\CoordinateTestProcessor.cs" />
-    <Compile Include="Processors\IsolateMarkerProcessor.cs" />
-    <Compile Include="Processors\HandAngleProcessor.cs" />
-    <Compile Include="Processors\HandLineProcessor.cs" />
+    <Compile Include="Processors\HandProcessor.cs" />
+    <Compile Include="Processors\HandPreprocessor.cs" />
     <Compile Include="Processors\Models\Processor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -152,30 +157,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="Convolutions\Images\hygrometer.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Convolutions\Images\middle.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Convolutions\Images\simple.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Convolutions\Images\thermometer.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestSets\Hygrometer\hygrometer_1_ex_48.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestSets\Hygrometer\hygrometer_2_ex_48.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestSets\Hygrometer\hygrometer_3_ex_48.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestSets\Hygrometer\hygrometer_4_ex_48.jpg">
+    <Folder Include="TestSets\Hygrometer\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestSets\hygrometer_1_ex_48.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestSets\Simple\simple_1_ex_0.jpg">
@@ -185,9 +171,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestSets\Simple\simple_2_ex_100.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestSets\Simple\simple_3_ex_0.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestSets\Simple\simple_6._ex_0.jpg">

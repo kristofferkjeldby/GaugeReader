@@ -7,25 +7,23 @@
     using GaugeReader.Math.Models.Circles;
     using GaugeReader.Processors.Models;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
 
-    public class LocateGaugeProcessor : Processor
+    public class DialProcessor : Processor
     {
-        public override string Name => nameof(LocateGaugeProcessor);
+        public override string Name => nameof(DialProcessor);
 
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {
-            var scaleDownFactor = 4;
+            var processImage = args.ImageSet.GetFilteredImage(new CannyFilter()).ToProcessImage();
 
-            // As this is a really labor intensive operation
-            // We are going to do it on a scaled down version of 
-            // the processing image.
-            var processImage = args.ImageSet.GetFilteredImage(new EdgeFilter()).Factor(scaleDownFactor).ToProcessImage();
+            AddDebugImage(processImage);
 
             var radius = processImage.Width / 2;
 
-            var maxRadius = (radius * Constants.SearchRadius.End).ToInt();
-            var minRadius = (radius * Constants.SearchRadius.Start).ToInt();
+            var maxRadius = (radius * args.Profile.DialZone.End).ToInt();
+            var minRadius = (radius * args.Profile.DialZone.Start).ToInt();
 
             var circles = new List<Circle>();
             for (int i = minRadius; i < maxRadius; i++)
@@ -35,7 +33,12 @@
                 circles.AddRange(circleTransform.GetMostIntensiveCircles(1).Select(c => new Circle(c, processImage)));
             }
 
-            var bestCandidate = circles.OrderByDescending(c => c.Intensity).FirstOrDefault();
+            var bestCandidate = circles.OrderByDescending(c => c.Intensity).Take(3).OrderBy(c => c.R).FirstOrDefault();
+
+            var debugImage = processImage.Copy().ToBitmap();
+            debugImage.DrawCircle(bestCandidate, Color.Lime, false);
+
+            AddDebugImage(debugImage);
 
             if (bestCandidate == null)
             {
@@ -43,10 +46,8 @@
                 return;
             }
 
-            args.DialRadius = bestCandidate.R.ToInt() * scaleDownFactor;
-
-            args.ImageSet.Crop(new CircleImageCrop(bestCandidate.ToRectangle(processImage).Scale(scaleDownFactor)));
-
+            args.DialRadius = bestCandidate.R.ToInt();
+            args.ImageSet.AddCrop(new CircleCrop(bestCandidate.ToRectangle(processImage)));
             AddDebugImage(args.ImageSet);
         }
     }
