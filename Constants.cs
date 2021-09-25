@@ -18,7 +18,7 @@
         public const int DeltaDecimals = 2;
         public static string DeltaFormat = $"n{DeltaDecimals}";
         public static double Delta = System.Math.Pow(0.1f, DeltaDecimals);
-        public static double DegreeDelta = 2d.ToRadians();
+        public static double DegreeDelta = 4d.ToRadians();
 
         // Angles
         public static double PI = System.Math.PI;
@@ -34,7 +34,7 @@
         public static int MinTicks = 12;
 
         public static string FallbackProfileName = "Simple";
-        public static string DefaultPath = @"TestSets\Simple\simple_1_ex_0.jpg";
+        public static string DefaultPath = @"TestSets\simple_1_ex_0.jpg";
 
     }
 }

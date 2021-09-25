@@ -11,6 +11,7 @@
         public Correlation(Angle angle, Map map, Map sampleMap, double intensity)
         {
             Angle = angle;
+            AngleSpan = new AngleSpan(Angle, Angle + sampleMap.Width);
             Map = map;
             SampleMap = sampleMap;
             Intensity = intensity;
@@ -21,6 +22,8 @@
         Map SampleMap { get; }
 
         public Angle Angle { get; set; }
+
+        public AngleSpan AngleSpan { get; set; }
 
         public double Intensity { get; set; }
 
@@ -40,7 +43,7 @@
             {
                 for (int y = Constants.ImageMapHeight; y < 2 * Constants.ImageMapHeight; y++)
                 {
-                    image.SetPixel((x + Angle.Step) % Map.Length, y, x == 0 ? Color.Red : SampleMap[x].ToColor());
+                    image.SetPixel((x + Angle.Step) % Map.Length, y, SampleMap[x].ToColor());
                 }
             }
 

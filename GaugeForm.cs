@@ -36,11 +36,11 @@ namespace GaugeReader
                 new HandProcessor(),
                 
                 // Find markers
-                //new MarkersSymmetriProcessor(),
+                new TickCorrelationProcessor(),
                 new TicksPreprocessor(),
-                new TicksProcessor(),
+                new TickFrequencyPreprocessor(),
 
-                new TicksAngleSpanProcessor(),
+                new TickFrequencyProcessor(),
 
                 // Find result
                 new ResultProcessor()
@@ -70,15 +70,15 @@ namespace GaugeReader
             {
                 var result = processor.Run(args);
 
+                if (result.Skipped)
+                    continue;
+
                 foreach (var message in result.Messages)
                     Log(message.Message, message.Debug);
 
                 if (DebugCheckBox.Checked)
                     foreach (var debugImage in result.DebugImage)
                         AddOutputImage(debugImage);
-
-                if (result.Skipped)
-                    continue;
 
                 if (args.Aborted)
                 {

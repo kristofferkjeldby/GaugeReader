@@ -18,5 +18,10 @@
         public TimeSpan Elapsed { get; set; }
 
         public bool Skipped { get; set; }
+
+        public void Skip()
+        {
+            Skipped = true;
+        }
     }
 }

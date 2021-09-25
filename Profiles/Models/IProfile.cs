@@ -3,6 +3,7 @@
     using GaugeReader.Filters.Models;
     using GaugeReader.Math.Models.Angles;
     using System;
+    using System.Drawing;
 
     public interface IProfile
     {
@@ -14,10 +15,14 @@
 
         RadiusZone MarkerZone { get; }
 
-        Angle MarkerAngle { get; }
+        Angle TicksAngle { get; }
 
         IFilter HandFilter { get; }
 
+        Bitmap Correlation { get; }
+
         Func<int, string> Reading { get; }
+
+        bool ArrowHand { get; }
     }
 }

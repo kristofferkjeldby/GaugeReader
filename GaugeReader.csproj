@@ -95,9 +95,11 @@
     <Compile Include="Math\Models\Angles\Angle.cs" />
     <Compile Include="Math\Models\Maps\CircularMap.cs" />
     <Compile Include="Math\Models\Maps\Mapable.cs" />
-    <Compile Include="Processors\TickProcessor.cs" />
+    <Compile Include="Processors\TickFrequencyPreprocessor.cs" />
     <Compile Include="Processors\TicksPreprocessor.cs" />
-    <Compile Include="Processors\TicksAngleSpanProcessor.cs" />
+    <Compile Include="Processors\TickFrequencyProcessor.cs" />
+    <Compile Include="Profiles\NoLogo.cs" />
+    <Compile Include="Profiles\Thermometer.cs" />
     <Compile Include="Transformations\CorrelationTransformation.cs" />
     <Compile Include="Transformations\FrequencyTransformation.cs" />
     <Compile Include="Transformations\AngleMapTransformation.cs" />
@@ -113,7 +115,7 @@
     <Compile Include="Processors\DialProcessor.cs" />
     <Compile Include="Processors\DialPreprocessor.cs" />
     <Compile Include="Processors\LoadImageProcessor.cs" />
-    <Compile Include="Processors\MarkersSymmetriProcessor.cs" />
+    <Compile Include="Processors\TickCorrelationProcessor.cs" />
     <Compile Include="Processors\SelectProfileProcessor.cs" />
     <Compile Include="Profiles\Helpers\ProfileHelper.cs" />
     <Compile Include="Profiles\Simple.cs" />
@@ -157,29 +159,21 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="TestSets\Hygrometer\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="TestSets\hygrometer_1_ex_48.jpg">
+    <Content Include="Profiles\Correlations\NoLogo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestSets\Simple\simple_1_ex_0.jpg">
+    <Content Include="Profiles\Correlations\Thermometer.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestSets\Simple\simple_7_ex_0.jpg">
+    <Content Include="TestSets\nologo_1._ex_0.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestSets\Simple\simple_2_ex_100.jpg">
+    <Content Include="TestSets\nologo_2_ex_1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestSets\Simple\simple_6._ex_0.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestSets\Simple\simple_5_ex_0.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestSets\Simple\simple_4_ex_0.jpg">
+    <Content Include="TestSets\simple_1_ex_0.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestSets\Thermometer\thermometer_10_ex_57.jpg">

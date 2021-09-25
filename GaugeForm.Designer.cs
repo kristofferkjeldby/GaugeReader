@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GaugeForm));
             this.OpenButton = new System.Windows.Forms.Button();
             this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.LogTextBox = new System.Windows.Forms.TextBox();
@@ -146,6 +147,7 @@
             this.Controls.Add(this.OutputImageFlowLayoutPanel);
             this.Controls.Add(this.LogTextBox);
             this.Controls.Add(this.OpenButton);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GaugeForm";
             this.Text = "GaugeReader";
             this.Load += new System.EventHandler(this.GaugeForm_Load);

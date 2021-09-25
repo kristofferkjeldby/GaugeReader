@@ -3,24 +3,29 @@
     using GaugeReader.Extensions;
     using GaugeReader.Filters;
     using GaugeReader.Gauge.Models;
-    using GaugeReader.Math.Models.Angles;
     using GaugeReader.Processors.Models;
     using GaugeReader.Transformations;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
 
-    public class TicksAngleSpanProcessor : Processor
+    public class TickFrequencyProcessor : Processor
     {
-        public override string Name => nameof(TicksAngleSpanProcessor);
+        public override string Name => nameof(TickFrequencyProcessor);
 
-        public TicksAngleSpanProcessor(params string[] profileNames) : base(profileNames)
+        public TickFrequencyProcessor(params string[] profileNames) : base(profileNames)
         {
 
         }
 
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {
+            if (args.Profile.Correlation != null)
+            {
+                result.Skip();
+                return;
+            }
+
             var zone = args.Profile.MarkerZone;
 
             var processImage = args.ImageSet.GetFilteredImage(new CannyFilter()).DrawRadiusZone(zone, Constants.ImageMaskColor);
@@ -59,7 +64,7 @@
 
             var candidates = tickAngleSpans.
                 Where(t => t.FuzzyIncludes(args.Gauge.Hand.Angle)).
-                Where(t => t.Width > args.Profile.MarkerAngle - Constants.DegreeDelta && t.Width < args.Profile.MarkerAngle + Constants.DegreeDelta);
+                Where(t => t.Width > args.Profile.TicksAngle - Constants.DegreeDelta && t.Width < args.Profile.TicksAngle + Constants.DegreeDelta);
 
             var candidate = candidates.OrderByDescending(x => x.Points).FirstOrDefault();
 

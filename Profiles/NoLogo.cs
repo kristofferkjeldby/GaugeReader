@@ -8,15 +8,15 @@
     using System;
     using System.Drawing;
 
-    public class Simple : IProfile
+    public class NoLogo : IProfile
     {
-        public string Name => nameof(Simple);
+        public string Name => nameof(NoLogo);
 
         public RadiusZone DialZone => new RadiusZone(0.6, 1);
 
         public RadiusZone CenterZone => new RadiusZone(0, 0.1);
 
-        public RadiusZone MarkerZone => new RadiusZone(0.7, 1);
+        public RadiusZone MarkerZone => new RadiusZone(0.6, 1);
 
         public Angle TicksAngle => 270d.ToRadians();
 
@@ -26,7 +26,7 @@
 
         public IFilter HandFilter => new CannyFilter();
 
-        public Bitmap Correlation => null;
+        public Bitmap Correlation => (Bitmap)Image.FromFile(@"Profiles\Correlations\NoLogo.png");
 
         public bool ArrowHand => true;
     }

@@ -32,7 +32,7 @@
             }
 
             args.Gauge.Hand.Line1 = lines[0];
-            args.Gauge.Hand.Line2 = lines[1];
+            args.Gauge.Hand.Line2 = args.Profile.ArrowHand ? lines[1] : lines [0];
 
             processImage.DrawLine(args.Gauge.Hand.Line1, Color.Lime);
             processImage.DrawLine(args.Gauge.Hand.Line2, Color.Lime);

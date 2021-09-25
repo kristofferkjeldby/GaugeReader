@@ -8,17 +8,23 @@
     using System.Drawing;
     using System.Linq;
 
-    public class TicksProcessor : Processor
+    public class TickFrequencyPreprocessor : Processor
     {
-        public override string Name => nameof(TicksProcessor);
+        public override string Name => nameof(TickFrequencyPreprocessor);
 
-        public TicksProcessor(params string[] profileNames) : base(profileNames)
+        public TickFrequencyPreprocessor(params string[] profileNames) : base(profileNames)
         {
 
         }
 
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {
+            if (args.Profile.Correlation != null)
+            {
+                result.Skip();
+                return;
+            }
+
             var zone = args.Profile.MarkerZone;
 
             var processImage = args.ImageSet.GetFilteredImage(new CannyFilter()).DrawRadiusZone(zone, Constants.ImageMaskColor);
@@ -26,6 +32,8 @@
             var angleMapTransformation = new AngleMapTransformation();
             angleMapTransformation.ProcessImage(processImage);
             var map = angleMapTransformation.GetMap();
+
+            AddDebugImage(map);
 
             // Adjust ticks to hit maxima 
             foreach (var tick in args.Gauge.Ticks)

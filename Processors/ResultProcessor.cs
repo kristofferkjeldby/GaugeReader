@@ -14,7 +14,7 @@
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {
             var resultImage = args.ImageSet.OriginalImage.ToBitmap();
-            var edgeOverlayImage = args.ImageSet.GetFilteredImage(new CannyFilter()).Filter(new MaskFilter(Color.Lime));
+            var edgeOverlayImage = args.ImageSet.GetFilteredImage(new CannyFilter()).Filter(new MaskFilter(Color.Lime)).DrawRadiusZone(args.Profile.MarkerZone, Constants.ImageMaskColor);
 
             if (args.Gauge.Hand.Angle == null)
             {
@@ -24,7 +24,7 @@
 
             edgeOverlayImage.DrawRadialLine(args.Gauge.Hand.Angle, Color.Red, 3);
 
-            var tickOverlayImage = new Bitmap(edgeOverlayImage.Width, edgeOverlayImage.Height).Filter(new FillFilter(Color.FromArgb(40, Color.Red.R, Color.Red.G, Color.Red.B))).
+            var tickOverlayImage = new Bitmap(edgeOverlayImage.Width, edgeOverlayImage.Height).Filter(new FillFilter(Color.FromArgb(50, Color.Green.R, Color.Green.G, Color.Green.B))).
                 DrawRadiusZone(args.Profile.MarkerZone, Constants.ImageMaskColor).MaskAngleSpan(args.Gauge.TicksAngleSpan.Opposite, Constants.ImageMaskColor);
 
 
