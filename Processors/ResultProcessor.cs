@@ -29,8 +29,6 @@
             var tickOverlayUnmarkedImage = new Bitmap(edgeImage.Width, edgeImage.Height).Filter(new FillFilter(Color.FromArgb(50, Color.Green.R, Color.Green.G, Color.Green.B))).
                 DrawRadiusZone(args.Profile.MarkerZone, Constants.ImageMaskColor).MaskAngleSpan(unmarkedAngleSpan.Opposite, Constants.ImageMaskColor);
 
-            edgeOverlayMarkedImageMarked.DrawRadialLine(args.Gauge.Hand.Angle, Color.FromArgb(100, Color.Yellow.R, Color.Yellow.G, Color.Yellow.B), 1);
-
             edgeOverlayMarkedImageMarked.SetResolution(resultImage.VerticalResolution, resultImage.HorizontalResolution);
             edgeOverlayUnmarkedImageMarked.SetResolution(resultImage.VerticalResolution, resultImage.HorizontalResolution);
             tickOverlayMarkedImage.SetResolution(resultImage.VerticalResolution, resultImage.HorizontalResolution);
@@ -38,10 +36,10 @@
 
             using (Graphics gr = Graphics.FromImage(resultImage))
             {
-                gr.DrawImage(edgeOverlayMarkedImageMarked, new Point(args.ImageSet.Crop.X, args.ImageSet.Crop.Y));
-                gr.DrawImage(edgeOverlayUnmarkedImageMarked, new Point(args.ImageSet.Crop.X, args.ImageSet.Crop.Y));
-                gr.DrawImage(tickOverlayMarkedImage, new Point(args.ImageSet.Crop.X, args.ImageSet.Crop.Y));
-                gr.DrawImage(tickOverlayUnmarkedImage, new Point(args.ImageSet.Crop.X, args.ImageSet.Crop.Y));
+                if (markedAngleSpan.Width > 0) gr.DrawImage(edgeOverlayMarkedImageMarked, new Point(args.ImageSet.Crop.X, args.ImageSet.Crop.Y));
+                if (unmarkedAngleSpan.Width > 0) gr.DrawImage(edgeOverlayUnmarkedImageMarked, new Point(args.ImageSet.Crop.X, args.ImageSet.Crop.Y));
+                if (markedAngleSpan.Width > 0) gr.DrawImage(tickOverlayMarkedImage, new Point(args.ImageSet.Crop.X, args.ImageSet.Crop.Y));
+                if (unmarkedAngleSpan.Width > 0) gr.DrawImage(tickOverlayUnmarkedImage, new Point(args.ImageSet.Crop.X, args.ImageSet.Crop.Y));
             }
 
             var markedAngle = new AngleSpan(args.Gauge.Hand.Angle, args.Gauge.TicksAngleSpan.EndAngle);
@@ -62,7 +60,7 @@
                 }
                 else
                 {
-                    args.Passed = true;
+                    args.Passed = false;
                     color = Color.Red;
                     actualValueText += $" - Failed ({expectedValueText} expected)";
                 }

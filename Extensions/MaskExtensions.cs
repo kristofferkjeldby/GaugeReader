@@ -11,12 +11,12 @@
 
     public static class MaskExtensions
     {
-        public static Bitmap MaskCircle(this Bitmap image, Circle circle, Color color)
+        public static Bitmap MaskCircle(this Bitmap image, Circle circle, Color color, bool inPlace = false)
         {
-            return image.MaskCircle(circle.ToRectangle(image), color);
+            return image.MaskCircle(circle.ToRectangle(image), color, inPlace);
         }
 
-        public static Bitmap MaskCircle(this Bitmap image, Rectangle rectangle, Color color)
+        public static Bitmap MaskCircle(this Bitmap image, Rectangle rectangle, Color color, bool inPlace = false)
         {
             Bitmap output = image.Copy();
 
@@ -29,6 +29,12 @@
                 g.FillRectangle(new SolidBrush(color), rectangle);
                 g.Clip = new Region(path);
                 g.DrawImage(image, 0, 0);
+            }
+
+            if (inPlace)
+            {
+                image = output;
+                return image;
             }
 
             return output;

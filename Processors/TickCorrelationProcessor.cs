@@ -27,6 +27,8 @@
 
             var processImage = args.ImageSet.GetFilteredImage(new EdgeFilter()).DrawRadiusZone(zone, Constants.ImageMaskColor);
 
+            AddDebugImage(processImage);
+
             var angleMapTransformation = new AngleMapTransformation();
             angleMapTransformation.ProcessImage(processImage);
             var map = angleMapTransformation.GetMap();

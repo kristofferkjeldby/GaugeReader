@@ -11,11 +11,11 @@
     {
         public string Name => nameof(Thermometer);
 
-        public RadiusZone DialZone => new RadiusZone(0.6, 1);
+        public RadiusZone DialZone => new RadiusZone(0.6, 0.8);
 
-        public RadiusZone CenterZone => new RadiusZone(0, 0.1);
+        public RadiusZone CenterZone => new RadiusZone(0, 0.2);
 
-        public RadiusZone MarkerZone => new RadiusZone(0.7, 1);
+        public RadiusZone MarkerZone => new RadiusZone(0.85, 1);
 
         public Angle TicksAngle => (Constants.PI2 / 9) * 8;
 

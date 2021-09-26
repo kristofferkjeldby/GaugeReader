@@ -167,16 +167,10 @@
     <Content Include="Profiles\Correlations\Thermometer.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestSets\nologo_1._ex_0.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestSets\nologo_2_ex_1.jpg">
+    <Content Include="TestSets\nologo_1_ex_0.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestSets\simple_1_ex_0.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestSets\Thermometer\thermometer_10_ex_57.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestSets\Thermometer\thermometer_1_ex_57.jpg">

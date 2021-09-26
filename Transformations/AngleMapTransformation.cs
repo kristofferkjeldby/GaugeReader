@@ -30,7 +30,7 @@
 
             for (int i = 0; i < Constants.AngleResolution; i++)
             {
-                map[i] = alphaMap[i, 1] / alphaMap[i, 0];
+                map[i] = (alphaMap[i, 1] / alphaMap[i, 0]).Limit(0, 1);
             }
 
             map.Normalize();

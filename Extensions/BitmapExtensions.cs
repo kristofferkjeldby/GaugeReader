@@ -118,10 +118,8 @@
 
             for (int i = 0; i < image.Width; i++)
             {
-                map[i] = image.GetPixel(i, 0).GetBrightness();
+                map[i] = (2 * image.GetPixel(i, 0).GetBrightness()) - 1;
             }
-
-            map.Normalize();
 
             return new Map(map);
         }

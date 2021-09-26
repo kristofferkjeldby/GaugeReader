@@ -37,7 +37,7 @@
                 return;
             }
 
-            AddMessage($"Profile {args.Profile.Name} selected", false);
+            AddMessage($"Profile {args.Profile.Name} selected", true);
         }
     }
 }

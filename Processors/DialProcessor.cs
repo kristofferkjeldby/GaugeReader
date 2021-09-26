@@ -16,7 +16,7 @@
 
         public override void Process(ProcessorArgs args, ProcessorResult result)
         {
-            var processImage = args.ImageSet.GetFilteredImage(new CannyFilter()).ToProcessImage();
+            var processImage = args.ImageSet.GetFilteredImage(new CannyFilter()).DrawRadiusZone(args.Profile.DialZone, Constants.ImageMaskColor).ToProcessImage();
 
             AddDebugImage(processImage);
 

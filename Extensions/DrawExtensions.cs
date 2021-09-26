@@ -37,7 +37,7 @@
             var startCircle = new Circle(center, radius * radiusZone.Start);
             var endCircle = new Circle(center, radius * radiusZone.End);
 
-            return image.DrawCircle(startCircle, color).MaskCircle(endCircle, color);
+            return image.MaskCircle(endCircle, color, true).DrawCircle(startCircle, color);
         }
 
         public static Bitmap DrawLine(this Bitmap image, Line line, Color color)
