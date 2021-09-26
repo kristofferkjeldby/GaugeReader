@@ -34,7 +34,7 @@
         public static int MinTicks = 12;
 
         public static string FallbackProfileName = "Simple";
-        public static string DefaultPath = @"TestSets\simple_1_ex_0.jpg";
+        public static string DefaultPath = @"TestSets\Thermometer\thermometer_8_ex_57.jpg";
 
     }
 }
