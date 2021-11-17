@@ -28,13 +28,13 @@
 
 
         // Search settings
-        public static RadiusZone SearchRadius = new RadiusZone(0.2, 1); 
+        public static RadiusZone SearchRadius = new RadiusZone(0.1, 1); 
         public static int ScaleWidth = 600;
         public static double HandSearchAngle = PI / 8;
         public static int MinTicks = 12;
 
         public static string FallbackProfileName = "Simple";
-        public static string DefaultPath = @"TestSets\Thermometer\thermometer_8_ex_57.jpg";
+        public static string DefaultPath = @"TestSets\Thermometer\thermometer_1_ex_57.jpg";
 
     }
 }

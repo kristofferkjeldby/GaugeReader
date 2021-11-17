@@ -52,7 +52,7 @@
             var kv = maskedLines.OrderByDescending(ml => ml.Value.Item2.Intensity).FirstOrDefault();
             kv.Key.DrawLine(args.Gauge.Hand.Line1, Color.Lime);
             kv.Key.DrawLine(args.Gauge.Hand.Line2, Color.Lime);
-            args.Gauge.Hand.Angle = (args.Gauge.Hand.Line1.Angle.Opposite.Value + args.Gauge.Hand.Line2.Angle.Opposite.Value) /2;
+            args.Gauge.Hand.Angle = (args.Gauge.Hand.Line1.Angle.Opposite.Value);
             AddDebugImage(kv.Key);
         }
     }

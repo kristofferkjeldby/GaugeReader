@@ -98,6 +98,7 @@
     <Compile Include="Processors\TickFrequencyPreprocessor.cs" />
     <Compile Include="Processors\TicksPreprocessor.cs" />
     <Compile Include="Processors\TickFrequencyProcessor.cs" />
+    <Compile Include="Profiles\Demo.cs" />
     <Compile Include="Profiles\NoLogo.cs" />
     <Compile Include="Profiles\Thermometer.cs" />
     <Compile Include="Transformations\CorrelationTransformation.cs" />
@@ -161,10 +162,16 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Profiles\Correlations\Demo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Profiles\Correlations\NoLogo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Profiles\Correlations\Thermometer.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestSets\demo_1_ex_23.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestSets\nologo_1_ex_0.jpg">
